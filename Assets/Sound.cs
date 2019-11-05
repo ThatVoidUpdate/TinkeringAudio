@@ -18,7 +18,7 @@ public class Sound : MonoBehaviour
 
     void Start()
     {
-        AudioClip Audio = AudioClip.Create("MySinusoid", (int)(samplerate * length), 1, samplerate, true, OnAudioRead, OnAudioSetPosition);
+        AudioClip Audio = AudioClip.Create("GeneratedWave", (int)(samplerate * length), 1, samplerate, true, OnAudioRead, OnAudioSetPosition);
         AudioSource source = GetComponent<AudioSource>();
         source.clip = Audio;
         source.loop = Loop;
@@ -40,7 +40,7 @@ public class Sound : MonoBehaviour
                 break;
 
             case Waveform.Sawtooth:
-                int sawLength = (int)(samplerate/frequency);
+                int sawLength = (int)(samplerate / frequency);
                 int sawPosition = 0;
 
                 while (count < data.Length)
@@ -54,9 +54,10 @@ public class Sound : MonoBehaviour
                 break;
 
             case Waveform.Square:
+                int squareLength = (int)(samplerate / frequency);
                 while (count < data.Length)
                 {
-                    data[count] = Mathf.Sin(2 * Mathf.PI * frequency * position / samplerate);
+                    data[count] = position % squareLength > squareLength / 2 ? 0 : 1;
                     position++;
                     count++;
                 }
