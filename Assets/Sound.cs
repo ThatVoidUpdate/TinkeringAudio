@@ -16,18 +16,30 @@ public class Sound : MonoBehaviour
     public bool Loop = false;
     private int count = 0;
 
-    void Start()
+    public void RefreshAudio()
     {
-        AudioClip Audio = AudioClip.Create("GeneratedWave", (int)(samplerate * length), 1, samplerate, true, OnAudioRead, OnAudioSetPosition);
         AudioSource source = GetComponent<AudioSource>();
-        source.clip = Audio;
+        source.Stop();
+
+        AudioClip NewAudio = AudioClip.Create("GeneratedWave", (int)(samplerate * length), 1, samplerate, false);
+        NewAudio.SetData(GenerateData((int)length * samplerate), 0);
+
+        source.clip = NewAudio;
         source.loop = Loop;
+
         source.Play();
+        Debug.Log("Refreshed Audio!");
     }
 
-    void OnAudioRead(float[] data)
+    void Start()
     {
-        
+        RefreshAudio();
+    }
+
+    float[] GenerateData(int length)
+    {
+        float[] data = new float[length];
+
         switch (form)
         {
             case Waveform.Sine:
@@ -66,6 +78,8 @@ public class Sound : MonoBehaviour
             default:
                 break;
         }
+
+        return data;
         
     }
 
