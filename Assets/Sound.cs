@@ -41,13 +41,11 @@ public class Sound : MonoBehaviour
 
             case Waveform.Sawtooth:
                 int sawLength = (int)(samplerate/frequency);
-                Debug.Log(sawLength);
                 int sawPosition = 0;
 
                 while (count < data.Length)
                 {
                     data[count] = (float)sawPosition / sawLength;
-                    //Debug.Log("Position: " + sawPosition + ", length: " + sawLength + ", amplitude: " + (float)sawPosition / sawLength);
                     position++;
                     count++;
                     sawPosition = position % sawLength;
