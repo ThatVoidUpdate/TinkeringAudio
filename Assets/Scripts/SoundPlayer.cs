@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class SoundPlayer : MonoBehaviour
 {
+    public Effect[] Effects;
     public void PlayAudio(float[] data)
 	{
 		AudioSource source = GetComponent<AudioSource>();
@@ -18,6 +19,22 @@ public class SoundPlayer : MonoBehaviour
 
     public void Start()
     {
-        PlayAudio(GetComponent<SoundLoader>().ImportAudio("Assets\\100.wav"));
+        float[] BaseAudio = GetComponent<SoundLoader>().ImportAudio("Assets\\Chipr.wav");
+        foreach (Effect effect in Effects)
+        {
+            switch (effect)
+            {
+                case Effect.Riser:
+                    BaseAudio = SoundEffect.Riser(BaseAudio);
+                    break;
+                case Effect.Double:
+                    BaseAudio = SoundEffect.Double(BaseAudio);
+                    break;
+                case Effect.Halve:
+                    BaseAudio = SoundEffect.Halve(BaseAudio);
+                    break;
+            }
+        }
+        PlayAudio(BaseAudio);
     }
 }
