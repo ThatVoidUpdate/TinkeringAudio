@@ -15,4 +15,9 @@ public class SoundPlayer : MonoBehaviour
 
         source.Play();
 	}
+
+    public void Start()
+    {
+        PlayAudio(GetComponent<SoundLoader>().ImportAudio("Assets\\100.wav"));
+    }
 }

@@ -22,14 +22,12 @@ public class SoundLoader : MonoBehaviour
     public float[] SampleData;
 
 	
-    public void ImportAudio(string path)
+    public float[] ImportAudio(string path)
 	{
 
         byte[] fileBytes = File.ReadAllBytes(path);
 
         FileType = ((char)fileBytes[0]).ToString() + ((char)fileBytes[1]).ToString() + ((char)fileBytes[2]).ToString() + ((char)fileBytes[3]).ToString();
-
-        Debug.Log(FileType);
 
         if (FileType != "RIFF")
         {
@@ -57,6 +55,8 @@ public class SoundLoader : MonoBehaviour
             sampleFloats.Add(TwosComplementBinaryToDecimal(Convert.ToString(LittleEndianToDecimal(AudioData.Skip(i).Take(BytesPerSample).ToArray()), 2)) / 32768f);
         }
         SampleData = sampleFloats.ToArray();
+
+        return SampleData;
 
     }
 
