@@ -181,7 +181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 745790b061d1dfb438d503ca3eac8c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Effects: 020000000200000002000000
+  Effects: 0300000000000000
+  file: Assets\\100.wav
 --- !u!82 &612746649
 AudioSource:
   m_ObjectHideFlags: 0

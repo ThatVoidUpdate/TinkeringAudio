@@ -6,6 +6,8 @@ using UnityEngine;
 public class SoundPlayer : MonoBehaviour
 {
     public Effect[] Effects;
+
+    public string file;
     public void PlayAudio(float[] data)
 	{
 		AudioSource source = GetComponent<AudioSource>();
@@ -19,7 +21,7 @@ public class SoundPlayer : MonoBehaviour
 
     public void Start()
     {
-        float[] BaseAudio = GetComponent<SoundLoader>().ImportAudio("Assets\\Chipr.wav");
+        float[] BaseAudio = GetComponent<SoundLoader>().ImportAudio(file);
         foreach (Effect effect in Effects)
         {
             switch (effect)
@@ -32,6 +34,9 @@ public class SoundPlayer : MonoBehaviour
                     break;
                 case Effect.Halve:
                     BaseAudio = SoundEffect.Halve(BaseAudio);
+                    break;
+                case Effect.RingMod:
+                    BaseAudio = SoundEffect.RingMod(BaseAudio);
                     break;
             }
         }

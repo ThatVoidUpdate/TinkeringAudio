@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public enum Effect {Riser, Double, Halve};
+public enum Effect {Riser, Double, Halve, RingMod};
 public class SoundEffect : MonoBehaviour
 {
     public static float[] Riser(float[] data)
@@ -32,6 +32,19 @@ public class SoundEffect : MonoBehaviour
         {
             ret[i] = data[i / 2];
             ret[i + 1] = data[i / 2];
+        }
+
+        return ret;
+    }
+
+    public static float[] RingMod (float[] data)
+    {
+        float[] ret = new float[data.Length];
+        float modFreq = 300;
+
+        for (int i = 0; i < data.Length; i++)
+        {            
+            ret[i] = data[i] * (Mathf.Sin(i * modFreq / 44100) > 0 ? 1 : 0);
         }
 
         return ret;
