@@ -25,13 +25,27 @@ public class SoundLoader : MonoBehaviour
 	
     public float[] ImportAudio(string path)
 	{
+        byte[] fileBytes;
+
         if (!File.Exists(path))
         {
-            //the file doesnt exist, give an error
-            GameObject.Find("ErrorBox").GetComponent<TextMeshProUGUI>().text = "The specified file cannot be found, please make sure that it exists";
-            return null;
+            if (!File.Exists(path + ".wav"))
+            {
+                //the file doesnt exist, give an error
+                GameObject.Find("ErrorBox").GetComponent<TextMeshProUGUI>().text = "The specified file cannot be found, please make sure that it exists";
+                return null;
+            }
+            else
+            {
+                fileBytes = File.ReadAllBytes(path + ".wav");
+            }
+            
         }
-        byte[] fileBytes = File.ReadAllBytes(path);
+        else
+        {
+           fileBytes = File.ReadAllBytes(path);
+        }
+        
 
         FileType = ((char)fileBytes[0]).ToString() + ((char)fileBytes[1]).ToString() + ((char)fileBytes[2]).ToString() + ((char)fileBytes[3]).ToString();
 
