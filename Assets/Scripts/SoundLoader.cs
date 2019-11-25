@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 
 public class SoundLoader : MonoBehaviour
@@ -24,14 +25,20 @@ public class SoundLoader : MonoBehaviour
 	
     public float[] ImportAudio(string path)
 	{
-
+        if (!File.Exists(path))
+        {
+            //the file doesnt exist, give an error
+            GameObject.Find("ErrorBox").GetComponent<TextMeshProUGUI>().text = "The specified file cannot be found, please make sure that it exists";
+            return null;
+        }
         byte[] fileBytes = File.ReadAllBytes(path);
 
         FileType = ((char)fileBytes[0]).ToString() + ((char)fileBytes[1]).ToString() + ((char)fileBytes[2]).ToString() + ((char)fileBytes[3]).ToString();
 
         if (FileType != "RIFF")
         {
-            Debug.LogError("File is not a WAV file");
+            GameObject.Find("ErrorBox").GetComponent<TextMeshProUGUI>().text = "The specified file is not a wav file, please check it";
+            return null;
         }
 
 
@@ -89,10 +96,5 @@ public class SoundLoader : MonoBehaviour
         {
             return Convert.ToInt32(binary, 2);
         }        
-    }
-
-    public void Start()
-    {
-        ImportAudio("Assets\\100.wav");
     }
 }

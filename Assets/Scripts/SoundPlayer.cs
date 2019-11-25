@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(SoundLoader))]
@@ -37,6 +38,15 @@ public class SoundPlayer : MonoBehaviour
     public void LoadAudio()
     {
         BaseAudio = GetComponent<SoundLoader>().ImportAudio("Assets\\" + input.text);
+        if (BaseAudio != null)
+        {
+            GameObject.Find("PlayButton").GetComponent<Button>().interactable = true;
+            GameObject.Find("ErrorBox").GetComponent<TextMeshProUGUI>().text = "";
+        }
+        else
+        {
+            GameObject.Find("PlayButton").GetComponent<Button>().interactable = false;
+        }
     }
 
     public void ApplyEffects()
