@@ -7,12 +7,19 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(SoundLoader))]
+
+///<summary>
+///Responsible for playing audio
+///</summary>
 public class SoundPlayer : MonoBehaviour
 {
+    //Holds all the effects to be applied, in order
     public Effect[] Effects;
 
-    public TMP_InputField input;
+    //The input box for the filename
+    public TMP_InputField filename;
 
+    //Holds the normal and effected audio
     private float[] BaseAudio;
     private float[] EffectAudio;
 
@@ -23,6 +30,7 @@ public class SoundPlayer : MonoBehaviour
     {
 		AudioSource source = GetComponent<AudioSource>();
 
+        //A toggle to stop the sound if it is playing, or play it if it is stopped
         if (source.isPlaying)
         {
             source.Stop();
@@ -43,14 +51,14 @@ public class SoundPlayer : MonoBehaviour
     /// </summary>
     public void LoadAudio()
     {
-        BaseAudio = GetComponent<SoundLoader>().ImportAudio("Assets\\" + input.text);
+        BaseAudio = GetComponent<SoundLoader>().ImportAudio("Assets\\" + filename.text);
         if (BaseAudio != null)
-        {
+        {//We got data back, so enable the play button, and clear the error dialog box
             GameObject.Find("PlayButton").GetComponent<Button>().interactable = true;
             GameObject.Find("ErrorBox").GetComponent<TextMeshProUGUI>().text = "";
         }
         else
-        {
+        {//If we didnt get any data back, there must have been an error, so disable the play button
             GameObject.Find("PlayButton").GetComponent<Button>().interactable = false;
         }
     }
@@ -63,7 +71,7 @@ public class SoundPlayer : MonoBehaviour
         EffectAudio = new float[BaseAudio.Length];
         Array.Copy(BaseAudio, 0, EffectAudio, 0, BaseAudio.Length);
         foreach (Effect effect in Effects)
-        {
+        {//Apply all the effects
             switch (effect)
             {
                 case Effect.Riser:

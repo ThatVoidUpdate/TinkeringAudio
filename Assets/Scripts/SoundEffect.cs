@@ -7,10 +7,14 @@ using System.Linq;
 /// Holds all the types of effects currently implemented
 /// </summary>
 public enum Effect {Riser, Double, Halve, RingMod};
+
+/// <summary>
+/// Responsible for applying sound effects to a given sound
+/// </summary>
 public class SoundEffect : MonoBehaviour
 {
     /// <summary>
-    /// Adds a rising volume effect to the audio
+    /// Adds a rising volume effect to the audio, by creating a multiplier that increases over time
     /// </summary>
     /// <param name="data">The sound to be affected</param>
     /// <returns>The affected sound</returns>
@@ -27,18 +31,18 @@ public class SoundEffect : MonoBehaviour
     }
 
     /// <summary>
-    /// Doubles the frequency of the sound
+    /// Doubles the frequency of the sound, by only returning every even-numbered sample
     /// </summary>
     /// <param name="data">The sound to be affected</param>
     /// <returns>The affected sound</returns>
     public static float[] Double(float[] data)
     {
-        data = data.Where((source, index) => (index / 2) * 2 == index).ToArray();
+        data = data.Where((source, index) => (index / 2) * 2 == index).ToArray();//This is LINQ magic: https://docs.microsoft.com/en-us/dotnet/csharp/tutorials/working-with-linq
         return data;
     }
 
     /// <summary>
-    /// Halves the frequency of the sound
+    /// Halves the frequency of the sound, by duplicating every sample
     /// </summary>
     /// <param name="data">The sound to be affected</param>
     /// <returns>The affected sound</returns>
@@ -57,6 +61,7 @@ public class SoundEffect : MonoBehaviour
 
     /// <summary>
     /// Adds a ring modulation effect with 300hz as the modulation frequency
+    /// https://en.wikipedia.org/wiki/Ring_modulation
     /// </summary>
     /// <param name="data">The sound to be affected</param>
     /// <returns>The affected sound</returns>

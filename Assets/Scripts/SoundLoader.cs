@@ -7,8 +7,12 @@ using System.Linq;
 using TMPro;
 
 
+/// <summary>
+/// Responsible for loading audio
+/// </summary>
 public class SoundLoader : MonoBehaviour
 {
+    //WAV data, explanaions for all of them can be found here: http://soundfile.sapp.org/doc/WaveFormat/
     public string FileType = "";
     public int ChunkSize;
     public int SubChunkSize;
@@ -64,7 +68,7 @@ public class SoundLoader : MonoBehaviour
         SubChunkSize = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x10", "0x14"));
         Format = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x14", "0x16"));
         Channels = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x16", "0x18"));
-        SampleRate = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x18", "0x1C"));
+        SampleRate = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x18", "0x1C"));//Usually 44100
         ByteRate = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x1C", "0x20"));
         BlockAlign = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x20", "0x22"));
 
@@ -88,6 +92,7 @@ public class SoundLoader : MonoBehaviour
 
     /// <summary>
     /// Converts a little endian hex number ("3F 01") to its corresponding decimal number (319)
+    /// Reverses the array, to make it big endian, then joins all the elements, adds an "0x" to the start, and converts from hex to dec
     /// </summary>
     /// <param name="data">The bytes that represent the hex number</param>
     /// <returns>the corresponding decimal number</returns>
@@ -99,6 +104,7 @@ public class SoundLoader : MonoBehaviour
 
     /// <summary>
     /// Returns the elements of an array specified with hex strings
+    /// Uses LINQ magic to skip into the array, and return the length required
     /// </summary>
     /// <param name="data">The array to take the data from</param>
     /// <param name="StartOffset">The position to start taking data</param>
