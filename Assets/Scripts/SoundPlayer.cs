@@ -11,11 +11,14 @@ public class SoundPlayer : MonoBehaviour
 {
     public Effect[] Effects;
 
-    //public string file;
     public TMP_InputField input;
 
     private float[] BaseAudio;
     private float[] EffectAudio;
+
+    /// <summary>
+    /// Applies the currently selected effects to the sound, assigns it to the audio source, and plays it
+    /// </summary>
     public void PlayAudio()
     {
 		AudioSource source = GetComponent<AudioSource>();
@@ -35,6 +38,9 @@ public class SoundPlayer : MonoBehaviour
         }
 	}
 
+    /// <summary>
+    /// Uses the SoundLoader script to load in a wav file
+    /// </summary>
     public void LoadAudio()
     {
         BaseAudio = GetComponent<SoundLoader>().ImportAudio("Assets\\" + input.text);
@@ -49,6 +55,9 @@ public class SoundPlayer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Applies all the selected audio effects in the effect chain
+    /// </summary>
     public void ApplyEffects()
     {
         EffectAudio = new float[BaseAudio.Length];
@@ -73,11 +82,19 @@ public class SoundPlayer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the first audio effect to be applied to the audio
+    /// </summary>
+    /// <param name="effect">The index into Effect to be applied</param>
     public void SetFirstEffect(int effect)
     {
         Effects[0] = (Effect)effect;
     }
 
+    /// <summary>
+    /// Sets the second audio effect to be applied to the audio
+    /// </summary>
+    /// <param name="effect">The index into Effect to be applied</param>
     public void SetSecondEffect(int effect)
     {
         Effects[1] = (Effect)effect;
