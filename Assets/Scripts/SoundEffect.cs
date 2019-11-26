@@ -68,7 +68,7 @@ public class SoundEffect : MonoBehaviour
     public static float[] RingMod (float[] data)
     {
         float[] ret = new float[data.Length];
-        float modFreq = 300;
+        float modFreq = 300;//This is the modulation frequency. I would have liked for this to be changeable by the user, but I wasnt able to =(
 
         for (int i = 0; i < data.Length; i++)
         {            
