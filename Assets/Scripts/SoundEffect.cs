@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Linq;
 
 /// <summary>
@@ -23,8 +21,8 @@ public class SoundEffect : MonoBehaviour
         int SampleLength = data.Length;
         for (int i = 0; i < SampleLength; i++)
         {
-            data[i] = data[i] / SampleLength;
-            data[i] = data[i] * i;
+            data[i] /= SampleLength;
+            data[i] *= i;
         }
 
         return data;

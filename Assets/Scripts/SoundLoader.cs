@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -52,8 +51,8 @@ public class SoundLoader : MonoBehaviour
         {
            fileBytes = File.ReadAllBytes(path);
         }
-        
 
+        //Gets the first 4 bytes of the file. If this is a valid WAV file, the first 4 bytes will always be "RIFF" (https://en.wikipedia.org/wiki/List_of_file_signatures)
         FileType = ((char)fileBytes[0]).ToString() + ((char)fileBytes[1]).ToString() + ((char)fileBytes[2]).ToString() + ((char)fileBytes[3]).ToString();
 
         if (FileType != "RIFF")
@@ -68,12 +67,10 @@ public class SoundLoader : MonoBehaviour
         SubChunkSize = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x10", "0x14"));
         Format = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x14", "0x16"));
         Channels = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x16", "0x18"));
-        SampleRate = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x18", "0x1C"));//Usually 44100
+        SampleRate = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x18", "0x1C")); //Usually 44100
         ByteRate = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x1C", "0x20"));
         BlockAlign = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x20", "0x22"));
-
         BytesPerSample = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x22", "0x24")) / 8;
-
         SubChunk2Size = LittleEndianToDecimal(GetValuesAtOffset(fileBytes, "0x28", "0x2C"));
 
         AudioData = fileBytes.Skip(Convert.ToInt32("0x2C", 16)).Take(fileBytes.Length - Convert.ToInt32("0x2C", 16)).ToArray();
